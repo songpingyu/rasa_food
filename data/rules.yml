@@ -1,0 +1,61 @@
+version: "2.0"
+rules:
+- rule: Say goodbye anytime the user says goodbye
+  steps:
+  - intent: goodbye
+  - action: utter_goodbye
+- rule: Say 'I am a bot' anytime the user challenges
+  steps:
+  - intent: bot_challenge
+  - action: utter_iamabot
+- rule: order_meal
+  condition:
+  - active_loop: meal_form
+  steps:
+  - action: meal_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_test
+  - action: drink_form
+  - active_loop: drink_form
+- rule: order_drink
+  condition:
+  - active_loop: drink_form
+  steps:
+  - action: drink_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_drink
+  - action: ice_form
+  - active_loop: ice_form
+- rule: order_ice
+  condition:
+  - active_loop: ice_form
+  steps:
+  - action: ice_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_ice
+  - action: here_form
+  - active_loop: here_form
+- rule: order_here
+  condition:
+  - active_loop: here_form
+  steps:
+  - action: here_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_here
+- rule: food_meal
+  condition:
+  - active_loop: food_form
+  steps:
+  - action: food_form
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_food

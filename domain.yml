@@ -1,0 +1,152 @@
+version: '2.0'
+config:
+  store_entities_as_slots: true
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- greet:
+    use_entities: true
+- goodbye:
+    use_entities: true
+- affirm:
+    use_entities: true
+- deny:
+    use_entities: true
+- mood_great:
+    use_entities: true
+- mood_unhappy:
+    use_entities: true
+- bot_challenge:
+    use_entities: true
+- request_order:
+    use_entities: true
+- order:
+    use_entities: true
+- request_drink:
+    use_entities: true
+- request_ice:
+    use_entities: true
+- reques_ice:
+    use_entities: true
+- reques_no:
+    use_entities: true
+- reques_yes:
+    use_entities: true
+- here:
+    use_entities: true
+- togo:
+    use_entities: true
+- hey:
+    use_entities: true
+- request_food:
+    use_entities: true
+entities:
+- meal
+- drink
+- decide
+- ice
+- food
+slots:
+  order_meal:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  order_drink:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  order_ice:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  order_here:
+    type: rasa.shared.core.slots.BooleanSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  requested_slot:
+    type: rasa.shared.core.slots.UnfeaturizedSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+  food_meal:
+    type: rasa.shared.core.slots.TextSlot
+    initial_value: null
+    auto_fill: true
+    influence_conversation: false
+responses:
+  utter_greet:
+  - text: Hey! How are you?
+  utter_cheer_up:
+  - image: https://i.imgur.com/nGF1K8f.jpg
+    text: 'Here is something to cheer you up:'
+  utter_did_that_help:
+  - text: Did that help you?
+  utter_happy:
+  - text: Great, carry on!
+  utter_goodbye:
+  - text: Bye
+  utter_iamabot:
+  - text: I am a bot, powered by Rasa.
+  utter_ask_order_meal:
+  - text: Hi. What can I get for you?
+  utter_ask_food_meal:
+  - image: https://i.imgur.com/QcmpN0x.jpg
+    text: Hellow, what meal do you need?
+actions:
+- order_form
+- action_test
+- action_drink
+- order_drink
+- ask_order_meal
+- action_ice
+- action_here
+- action_food
+forms:
+  meal_form:
+    required_slots:
+      order_meal:
+      - entity: meal
+        type: from_entity
+  drink_form:
+    required_slots:
+      order_drink:
+      - entity: drink
+        type: from_entity
+  ice_form:
+    required_slots:
+      order_ice:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+  here_form:
+    required_slots:
+      order_here:
+      - intent: here
+        type: from_intent
+        value: true
+      - intent: togo
+        type: from_intent
+        value: false
+  CheckResult_form:
+    required_slots:
+      order_comfirm:
+      - intent: affirm
+        type: from_intent
+        value: true
+      - intent: deny
+        type: from_intent
+        value: false
+  food_form:
+    required_slots:
+      food_meal:
+      - entity: food
+        type: from_entity
+e2e_actions: []
